@@ -3,6 +3,6 @@ FROM nginx:latest
 ADD dist /etc/nginx/content/
 
 
-EXPOSE 80 443
+EXPOSE 80
 
-CMD ["/usr/sbin/nginx"]
+CMD ["nginx", "-g", "daemon off;"]
