@@ -161,9 +161,6 @@ ImagesZoom.prototype = {
             self.distX = -self.imgNewX;
             self.distY = -self.imgNewY;
         }
-        console.log(self.width)
-        console.log(this.crop.l)
-        console.log(self.distX)
         if (self.distX > this.crop.l) {
             self.newX = this.crop.l;
         } else if (self.distX <= this.crop.l && self.distX >= -self.width + this.crop.l) {
@@ -171,7 +168,6 @@ ImagesZoom.prototype = {
         } else if (self.distX < -self.width + this.crop.l) {
             self.newX = -self.width + this.crop.l;
         }
-		console.log(self.newX)
         this.addNode('newX:' + self.newX + '；newY' + self.newY);
         self.reset();
     },
