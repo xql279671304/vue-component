@@ -161,7 +161,9 @@ ImagesZoom.prototype = {
             self.distX = -self.imgNewX;
             self.distY = -self.imgNewY;
         }
-
+        console.log(self.width)
+        console.log(this.crop.l)
+        console.log(self.distX)
         if (self.distX > this.crop.l) {
             self.newX = this.crop.l;
         } else if (self.distX <= this.crop.l && self.distX >= -self.width + this.crop.l) {
@@ -169,6 +171,7 @@ ImagesZoom.prototype = {
         } else if (self.distX < -self.width + this.crop.l) {
             self.newX = -self.width + this.crop.l;
         }
+		console.log(self.newX)
         this.addNode('newX:' + self.newX + '；newY' + self.newY);
         self.reset();
     },
@@ -302,15 +305,15 @@ ImagesZoom.prototype = {
             let aspectRadio = size[0] / size[1];
             let screenRadio = clientWidth / clientHeight;
             if (aspectRadio > screenRadio) {
-                cropW = clientWidth - 20;
+                cropW = clientWidth - 40;
                 cropH = cropW / aspectRadio;
             } else {
-                cropH = clientHeight - 20;
+                cropH = clientHeight - 40;
                 cropW = cropH * aspectRadio;
             }
         } else {
-            cropW = clientWidth - 20;
-            cropH = clientHeight - 20;
+            cropW = clientWidth - 40;
+            cropH = clientHeight - 40;
         }
         let topH = (clientHeight - cropH) / 2;
         self.crop = {
@@ -432,7 +435,6 @@ ImagesZoom.prototype = {
         let nodeImg = document.createElement('img');
         nodeImg.src = base64data;
         document.querySelector('.crop-con').appendChild(nodeImg);
-        document.querySelector('.crop-con').removeChild(img);
         this.element = nodeImg;
         this.initEvent();
     },
@@ -444,7 +446,6 @@ ImagesZoom.prototype = {
         document.querySelector('.sole-style').appendChild(node);
     }
 };
-
 
 
 export default new ImagesZoom();

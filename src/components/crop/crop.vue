@@ -3,7 +3,7 @@
 		<img class="crop-img" :src='cropImg'>
 		<div class="crop" v-show="cropOption.show">
 			<div class="crop-con" ref="cropCon">
-				<img ref="sourceImg" :src="cropOption.sourceSrc">
+				<img ref="sourceImg" :src="cropOption.sourceSrc" style="display: none;">
 				<div>
 					<div class="crop-cover top"></div>
 					<div class="crop-cover bottom"></div>
@@ -34,7 +34,6 @@ export default {
 	},
 	data: () => ({
 		print: true,
-
 		cropImg: ''
 	}),
 	watch: {
