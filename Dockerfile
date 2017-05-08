@@ -1,4 +1,4 @@
-FROM node:latest
+FROM hub.c.163.com/public/nodejs:5.7.0
 
 MAINTAINER xql279671394@163.com
 
