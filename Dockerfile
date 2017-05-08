@@ -2,8 +2,6 @@ FROM node:latest
 
 MAINTAINER xql279671394@163.com
 
-ENV HTTP_PORT 8088
-
 COPY . /app
 WORKDIR /app
 
