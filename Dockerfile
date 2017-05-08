@@ -1,14 +1,14 @@
-FROM node:7
+FROM node:latest
 
-MAINTAINER xqling <279671304@qq.com>
-LABEL Descripttion="This image is build for web"
+MAINTAINER xql279671394@163.com
 
-RUN mkdir -p /opt/apps
-COPY .  /opt/apps
+ENV HTTP_PORT 8088
 
-WORKDIR /opt/apps/build/server
-ENV LANG C.UTF-8
+COPY . /app
+WORKDIR /app
+
+RUN npm --registry=https://registry.npm.taobao.org --disturl=https://npm.taobao.org/dist install
 
 EXPOSE 8088
 
-CMD [ "npm", "dev" ]
+CMD ["npm", "start"]

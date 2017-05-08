@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "手机端裁剪",
     "scripts": {
-        "dev": "node ./build/server",
+        "start": "node ./build/server",
         "build": "node ./build/build"
     },
     "author": "QLing",
