@@ -149,8 +149,9 @@
 		background: #ffffff;
 	}
 	.time-picker-btn{
-		padding: 10px 8px;
+		padding: 6px 8px;
 		border-bottom: 1px solid #eae7e7;
+		font-size: 12px;
 	}
 	.time-picker-btn>span:last-child{
 		float: right;
@@ -181,7 +182,7 @@
 		width: 49%;
 		display: block;
 		float: left;
-		height: 203px;
+		height: 210px;
 		overflow: scroll;
 		border-right:1px solid #c0c0c0;
 	}
@@ -194,10 +195,10 @@
 	.time-picker-time>div>p{
 		margin: 0;
 		padding: 0;
-		height: 80px;
+		height: 72px;
 	}
 	.time-picker-time>div>p.top{
-		height: 90px;
+		height: 74px;
 	}
 	.time-picker-time>div ul li{
 		font-size: 14px;
