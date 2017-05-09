@@ -30,12 +30,3 @@ const server = require('http').createServer(app);
 server.listen(port);
 
 console.log('Listening on port %s', port);
-
-/*
-module.exports = app.listen(port, (err) => {
-	if (err) {
-		console.log(err)
-		return
-	}
-	console.log('Listening at http://localhost:' + port + '\n')
-})*/

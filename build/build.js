@@ -8,12 +8,6 @@ const config = require('./config')
 const webpack = require('webpack')
 const webpackConfig = require('./webpack.config.js')
 
-console.log(
-    '  Tip:\n' +
-    '  Built files are meant to be served over an HTTP server.\n' +
-    '  Opening index.html over file:// won\'t work.\n'
-)
-
 var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
 rm('-rf', assetsPath)
 mkdir('-p', assetsPath)
