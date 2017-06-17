@@ -14,10 +14,14 @@
         |-- views
              |-- cropDemo //裁剪demo
              |-- date&timePicker //时间和日期demo
+             |-- calendarSchedule //农历日历，带星期几，横版 demo
     .
     ```
     
     
+### crop
+![裁剪](img/crop.png)
+
 ### datePicker
 ![时间组件](img/datePicker.png)
 
