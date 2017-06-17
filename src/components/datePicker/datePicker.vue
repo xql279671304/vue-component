@@ -1,4 +1,5 @@
 <template>
+	<transition name="date-picker">
 	<div class="date-picker" v-show="show"><!---->
 		<div class="date-picker-con">
 			<div class="date-picker-btn clearfix">
@@ -30,6 +31,7 @@
 			</div>
 		</div>
 	</div>
+	</transition>
 </template>
 <script>
 	export default{
@@ -184,7 +186,7 @@
 	}
 	.date-picker{
 		position: fixed;
-		top: 0;
+		bottom: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
@@ -194,11 +196,10 @@
 	}
 	.date-picker-con{
 		background: #ffffff;
-		position: fixed;
+		position: absolute;
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 240px;
 		font-size: 0.24rem;
 	}
 	.date-picker-btn{
@@ -224,17 +225,16 @@
 		display: block;
 		margin: auto;
 		padding: 0;
-		height: 100%;
+		height: 210px;
 	}
 	.date-picker-date:before{
 		content: ' ';
 		position: absolute;
-		top: 38.4%;
+		top: 90px;
 		left: 0;
 		right: 0;
 		background: #ebce44;
 		height: 30px;
-		z-index: -1;
 	}
 	.date-picker-date>div{
 		position: relative;
@@ -270,10 +270,17 @@
 	.date-picker-date>div ul li{
 		font-size: 14px;
 		text-align: center;
-		line-height: 30px;
 		height: 30px;
+		line-height: 30px;
 	}
 	.date-picker-date>div ul li.active{
 		color: #ffffff;
+	}
+	.date-picker-enter-active, .date-picker-leave-active {
+		transition: all .3s ease;
+		bottom: 0;
+	}
+	.date-picker-enter, .date-picker-leave-active {
+		bottom: -100%;
 	}
 </style>
