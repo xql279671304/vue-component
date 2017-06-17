@@ -1,12 +1,21 @@
 <template>
 	<div>
 		<h1>横版日历，日期安排，适合手机端</h1>
-		<schedule-calendar></schedule-calendar>
+		<p>选择的日期：{{date}}</p>
+		<schedule-calendar v-on:scheduleDate="scheduleDate"></schedule-calendar>
 	</div>
 </template>
 <script>
 	import scheduleCalendar from '../../components/calendarSchedule/scheduleCalendar.vue'
 	export default{
+		data: ()=>({
+			date: null
+		}),
+		methods: {
+			scheduleDate (data){
+				this.date = data.date;
+			}
+		},
 		components: {
 			scheduleCalendar
 		}

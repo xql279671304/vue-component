@@ -31,8 +31,9 @@
 		<div class="months" v-show="months.show">
 			<div>
 				<h4>
+					<span><img :src="closeIcon" @click="months.show=false"></span>
 					<span>选择月份</span>
-					<span><img :src="closeIcon" @click="months.show=false"><img :src="sureIcon" @click="sureChoose"></span>
+					<span><img :src="sureIcon" @click="sureChoose"></span>
 				</h4>
 				<div class="list">
 					<ul ref="yearList">
@@ -153,6 +154,7 @@
 						one.active = true;
 						this.curDate = one.cYear+'年'+one.cMonth+'月'+one.cDay+'日';
 						this.curLunar = '农历'+one.IMonthCn+one.IDayCn+'（'+one.ncWeek+'）';
+						this.$emit('scheduleDate', {date: one.cYear+' - '+one.cMonth+' - '+one.cDay})
 					}else{
 						one.active = false;
 					}
@@ -287,7 +289,7 @@
 		margin: 0;
 		width: 100%;
 		justify-content: space-between;
-		background: #50ce8e;
+		background: #000;
 		color: #ffffff;
 		align-items: center;
 		font-size: 0.26rem;
@@ -299,7 +301,7 @@
 		padding-right: 0.1rem;
 	}
 	.months>div h4 span{
-		padding:0 0.3rem;
+		padding:0 0.1rem;
 	}
 	.months .list{
 		height: 200px;
