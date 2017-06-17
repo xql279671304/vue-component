@@ -18,6 +18,12 @@
     ```
     
     
+### datePicker
+![时间组件](img/datePicker.png)
+
+### timePicker
+![时间组件](img/timePicker.png)
+
 ### calendarSchedule
 ![农历横版日历](img/1.png)
 ![农历横版日历](img/2.png)
