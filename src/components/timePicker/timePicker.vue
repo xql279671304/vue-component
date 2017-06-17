@@ -1,131 +1,105 @@
 <template>
-	<div class="time-picker" v-show="show">
-		<div class="time-picker-con">
-			<div class="time-picker-btn">
-				<span @click="sureTime('cancel')">取消</span>
-				<span @click="sureTime('sure')">确定</span>
-			</div>
-			<div class="time-picker-time">
-				<div class="time-picker-hour" ref="timePickerHour">
-					<p class="top"></p>
-					<ul>
-						<li v-for="H in hour" :class="{active: activeHour==H}">{{H<10?'0'+H:H}}</li>
-					</ul>
-					<p></p>
+	<transition name="time-picker">
+		<div class="time-picker" v-show="show">
+			<div class="time-picker-con">
+				<div class="time-picker-btn">
+					<span @click="sureTime('cancel')">取消</span>
+					<span @click="sureTime">确定</span>
 				</div>
-				<div class="time-picker-min" ref="timePickerMin">
-					<p class="top"></p>
-					<ul>
-						<li v-for="M in 59" :class="{active: activeMin==M-1}">{{M-1<10?'0'+(M-1):M}}</li>
-					</ul>
-					<p></p>
+				<div class="time">
+					<div class="sec" ref="timePickerSec">
+						<ul>
+							<li :class="{active: curSec==1}">上午</li>
+							<li :class="{active: curSec==2}">下午</li>
+						</ul>
+					</div>
+					<div class="hour" ref="timePickerHour">
+						<ul>
+							<li v-for="H in hour" :class="{active: curHour==H}">{{H}}</li>
+						</ul>
+					</div>
+					<div class="min" ref="timePickerMin">
+						<ul>
+							<li v-for="M in 60" :class="{active: curMin==M}">{{M-1<10?'0'+(M-1):(M-1)}}</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</transition>
 </template>
 <script>
 	export default{
 		props: {
-			/**
-			 * {
-			 * 	time: 12:00, 显示的时间 必填
-			 * 	maxTime: 23:00, 最大时间
-			 * 	minTime: 8:00 最小时间
-			 * }
-			 */
-			timePickerOption: Object,
-			show: Boolean
+			show: Boolean // true显示 false隐藏
 		},
 		data: ()=>({
-			minHour: 0,
-			maxHour: 23,
-			activeHour: 0,
-			activeMin: 0
+			hour: 12,
+			curSec: 1,
+			curHour: 1,
+			curMin: 1,
+			chooseTime: null
 		}),
-		computed: {
-			hour (){
-				let hour = [];
-				let minHour = this.minHour;
-				let maxHour = this.maxHour;
-				for(let i=minHour;i<maxHour+1;i++){
-					hour.push(i);
-				}
-				return hour;
-			}
-		},
-		watch:{
-			show (){
+		watch: {
+			show () {
 				if(this.show){
-					if(!this.show) return;
-					this.init();
+					this.initTime();
 				}
 			}
 		},
 		methods: {
-			init (){
-				let option = this.timePickerOption;
-				if(option.time){
-					this.activeHour = option.time.split(':')[0]*1;
-				}
-				if(option.minTime){
-					this.minHour = option.minTime.split(':')[0]*1;
-					if(this.activeHour<this.minHour){
-						this.activeHour = this.minHour;
-					}
-				}
-				if(option.maxTime){
-					this.maxHour = option.maxTime.split(':')[0]*1;
-				}
-				this.setHour();
-				this.$nextTick(function(){
-					this.chooseTime();
-				})
-				this.initScrollTop(this.$refs.timePickerHour, this.activeHour-this.minHour)
-				this.initScrollTop(this.$refs.timePickerMin, this.activeMin)
-			},
-			setHour (){
-				let hour = [];
-				let minHour = this.minHour;
-				let maxHour = this.maxHour;
-				for(let i=minHour;i<maxHour+1;i++){
-					hour.push(i);
-				}
-				this.hour = hour;
-			},
-			sureTime (type){
-				let option = {
-					time: (this.activeHour<10?'0'+this.activeHour:this.activeHour)+':'+(this.activeMin<10?'0'+this.activeMin:this.activeMin),
-					status: type
-				};
-				this.$emit('childChooseTime', option);
-			},
-			//get cur minutes
-			getCurM() {
-				var date = new Date();
-				return date.getHours() * 60 + date.getMinutes();
-			},
-			//选择日期
-			chooseTime (){
+			initTime (){
+				const date = new Date();
+				const timePickerSec = this.$refs.timePickerSec;
 				const timePickerHour = this.$refs.timePickerHour;
 				const timePickerMin = this.$refs.timePickerMin;
-				this.chooseFn(timePickerHour, 'Hour');
-				this.chooseFn(timePickerMin, 'Min');
-			},
-			chooseFn (obj, type){
-				obj.addEventListener('scroll', (e)=>{
-					const oneH = 30;
-					let scrollTop = e.target.scrollTop;
-					let index = index?index:Math.round(scrollTop/oneH);
-					type == 'Hour' && (this['active'+type] = index+this.minHour);
-					type == 'Min' && (this['active'+type] = index);
-				})
-			},
-			initScrollTop (obj, index){
-				const oneH = 30;
+				const H = date.getHours();
+				const M = date.getMinutes();
+				if(H>12){
+					this.curSec = 2;
+					this.curHour = H-12;
+				}else{
+					this.curSec = 1;
+					this.curHour = H;
+				}
+				this.curMin = M;
 				this.$nextTick(function(){
-					obj.scrollTop = oneH*index;
+					timePickerSec.scrollTop = (this.curSec-1)*30;
+					timePickerHour.scrollTop = (this.curHour-1)*30;
+					timePickerMin.scrollTop = (this.curMin)*30;
+					this.addEvent(timePickerSec, 'curSec');
+					this.addEvent(timePickerHour, 'curHour');
+					this.addEvent(timePickerMin, 'curMin');
 				})
+			},
+			addEvent (obj, name){
+				const self = this;
+				var st = '';
+				obj.addEventListener('scroll', (e)=>{
+					let target = e.target;
+					let t = target.scrollTop;
+					clearTimeout(st);
+					st = setTimeout(function(){
+						const num = Math.round(t/30);
+						target.scrollTop = num*30;
+						self[name] = num+1;
+					}, 500);
+					e.stopPropagation();
+				})
+			},
+			sureTime (type){
+				if(type=='cancel'){
+					this.$emit('timePickerData', {type: 'cancel'})
+					return;
+				}
+				let m = (this.curMin-1)<10?'0'+(this.curMin-1):this.curMin-1;
+				if(this.curSec==2){
+					this.chooseTime = (this.curHour+12)+':'+m;
+				}else{
+					this.chooseTime = this.curHour+' : '+m;
+				}
+				console.log(this.chooseTime)
+				this.$emit('timePickerData', {type: 'sure', time: this.chooseTime})
 			}
 		}
 	}
@@ -138,87 +112,103 @@
 		width: 100%;
 		height: 100%;
 		background: rgba(0,0,0,0.2);
+		z-index: 9999;
 	}
 	.time-picker-con{
-		position: fixed;
+		position: absolute;
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 240px;
 		color: #808080;
 		background: #ffffff;
 	}
 	.time-picker-btn{
-		padding: 6px 8px;
-		border-bottom: 1px solid #eae7e7;
-		font-size: 12px;
+		background: #363636;
+		color: #ffffff;
+		font-size: 0.24rem;
+		display: flex;
+		justify-content: space-between;
 	}
 	.time-picker-btn>span:last-child{
-		float: right;
 		color: #ebce44;
 	}
-	.time-picker-time{
-		position: relative;
-		width: 100%;
+	.time-picker-btn>span{
 		display: block;
-		margin: auto;
-		padding: 0;
-		height: 100%;
+		padding: 0.2rem 0.1rem;
 	}
-	.time-picker-time:before{
-		content: ' ';
-		position: absolute;
-		top: 38.4%;
-		left: 0;
-		right: 0;
-		background: #ebce44;
-		height: 30px;
-		z-index: -1;
-	}
-	.time-picker-time>div{
+	.time{
+		display: flex;
+		justify-content: center;
+		background: #000000;
+		color: #505050;
 		position: relative;
-		margin: 0;
-		padding: 0;
-		width: 49%;
-		display: block;
-		float: left;
 		height: 210px;
-		overflow: scroll;
-		border-right:1px solid #c0c0c0;
+		overflow: hidden;
 	}
-	.time-picker-time>div:last-child{
-		border-right: none;
+	.time .sec{
+		padding-right: 0.2rem;
+		height: 100%;
+		overflow-y: auto;
 	}
-	.time-picker-time>div>span.active{
-		color: #ebce44;
+	.time .hour{
+		padding: 0 0.2rem;
+		overflow-y: auto;
 	}
-	.time-picker-time>div>p{
-		margin: 0;
-		padding: 0;
-		height: 72px;
+	.time .min{
+		padding-left: 0.2rem;
+		overflow-y: auto;
 	}
-	.time-picker-time>div>p.top{
-		height: 74px;
+	.time:before,
+	.time:after{
+		position: absolute;
+		content: ' ';
+		left: 0;
+		width: 100%;
+		height: 1px;
+		background: #505050;
 	}
-	.time-picker-time>div ul li{
+	.time:before{
+		top: 90px;
+	}
+	.time:after{
+		top: 120px;
+	}
+	.time ul li{
+		height: 18px;
+		padding: 6px 0;
 		font-size: 14px;
 		text-align: center;
-		line-height: 30px;
-		height: 30px;
-		list-style: none;
 	}
-	.time-picker-time>div ul li.active{
+	.time ul li.active{
 		color: #ffffff;
 	}
-	.time-picker-hour li{
-		position: relative;
+	.time .sec ul{
+		height: 100%;
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		align-content: center;
+		padding: 15px 0;
 	}
-	.time-picker-hour li:before{
-		content: ':';
-		position: absolute;
-		right: 8px;
+	.time .hour ul,
+	.time .min ul{
+		padding: 90px 0;
 	}
-	.time-picker-hour li.active:before{
-		color: #ffffff;
+	.time .sec ul li{
+		width:100%;
+		font-size: 0.3rem;
+	}
+	.time .sec::-webkit-scrollbar,
+	.time .hour::-webkit-scrollbar,
+	.time .min::-webkit-scrollbar{
+		width: 0;
+		height: 0;
+	}
+	.time-picker-enter-active, .time-picker-leave-active {
+		transition: all .3s ease;
+		bottom: 0;
+	}
+	.time-picker-enter, .time-picker-leave-active {
+		bottom: -100%;
 	}
 </style>

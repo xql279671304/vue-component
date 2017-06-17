@@ -1,10 +1,10 @@
 <template lang="html">
-    <div>
+    <div class="demo">
         <h1>时间组件和日期组件</h1>
         <input type='text' v-model="datePicker" placeholder="请选日期" @click="chooseDate">
         <input type='text' v-model="timePicker" placeholder="请选时间" @click="chooseTime">
         <date-picker :date-picker-option="datePickerOption" :show="datePickerShow" v-on:childChooseDate="getChooseDate"></date-picker>
-        <time-picker :time-picker-option="timePickerOption" :show="show" v-on:childChooseTime="getChooseTime"></time-picker>
+        <time-picker :time-picker-option="timePickerOption" :show="show" v-on:timePickerData="getChooseTime"></time-picker>
     </div>
 </template>
 <<script>
@@ -38,10 +38,10 @@
                     this.datePicker = obj.date;
 				}
 			},
-			getChooseTime (obj){
-				console.log(obj)
+			getChooseTime (data){
+				console.log(data)
 				this.show = false;
-				this.timePicker = obj.time;
+				this.timePicker = data.time;
             }
         },
         components: {
@@ -51,6 +51,10 @@
     }
 </script>
 <style>
+    @import "../../assets/style.css";
+    .demo{
+        font-size: 0.3rem;
+    }
     input{
         display: block;
         width: 90%;

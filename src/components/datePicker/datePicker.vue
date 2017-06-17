@@ -34,15 +34,6 @@
 <script>
 	export default{
 		props: {
-			/***
-			 * {
-			 * startYear: 2000,
-			 * chooseYear: 2016,
-			 * chooseMonth: 1,
-			 * chooseDay: 1,
-			 * type: ** // 日期类型
-			 * }
-			 */
 			datePickerOption: Object,
 			show: Boolean
 		},
@@ -155,17 +146,23 @@
 				this.chooseFn(datePickerDay, 'Day');
 			},
 			chooseFn (obj, type){
+				var st = '';
+				const oneH = 30;
 				obj.addEventListener('scroll', (e)=>{
-					const oneH = 30;
-					let scrollTop = e.target.scrollTop;
-					let index = index?index:Math.round(scrollTop/oneH);
-					this['active'+type] = index;
-					type=='Year' && (this['choose'+type] = this.startYear+index);
-					type!='Year' && (this['active'+type] = index+1);
-					type!='Year' && (this['choose'+type] = index+1);
-					if(type=='Month'||type=='Year'){
-						this.sumDays();
-					}
+					clearTimeout(st);
+					st = setTimeout(()=>{
+						const target = e.target;
+						let scrollTop = target.scrollTop;
+						let index = index?index:Math.round(scrollTop/oneH);
+						this['active'+type] = index;
+						type=='Year' && (this['choose'+type] = this.startYear+index);
+						type!='Year' && (this['active'+type] = index+1);
+						type!='Year' && (this['choose'+type] = index+1);
+						target.scrollTop = index*oneH;
+						if(type=='Month'||type=='Year'){
+							this.sumDays();
+						}
+					}, 500)
 				})
 			},
 			initScrollTop (obj, index){
@@ -208,8 +205,6 @@
 		color: #808080;
 		padding: 10px 8px;
 		border-bottom: 1px solid #eae7e7;
-		display: flex;
-		justify-content: space-between;
 	}
 	.date-picker-btn>span{
 		color: #808080;
@@ -230,7 +225,6 @@
 		margin: auto;
 		padding: 0;
 		height: 100%;
-		display: flex;
 	}
 	.date-picker-date:before{
 		content: ' ';

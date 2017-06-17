@@ -1,0 +1,343 @@
+body{
+	background: #efefef;
+	font-family: "宋体","微软雅黑", "黑体", arial, helvetica;
+}
+p {
+	margin: 0;
+}
+a{
+	text-decoration: none;
+}
+ul {
+	margin: 0;
+	padding: 0;
+}
+/*等待加载完vue才显示*/
+[v-cloak] {
+	display: none;
+}
+.clearfix:after,
+.clearfix:before {
+	content: ' ';
+	display: block;
+	clear: both;
+	height: 0;
+}
+.float-left{
+	float: left;
+}
+.float-right{
+	float: right;
+}
+.margin-right-8{
+	margin-right: 0.08rem;
+}
+li{
+	list-style: none;
+}
+ul,ol{
+	padding: 0;
+	margin: 0;
+}
+svg.icon {
+	width: 0.5rem;
+	height: 0.5rem;
+	vertical-align: -0.15rem;
+	fill: currentColor;
+	overflow: hidden;
+}
+/*按钮*/
+.mobile-btn{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	background: #ffffff;
+	border: none;
+	border-radius: 2px;
+	padding: 0.06rem 0.14rem;
+	font-size: 0.22rem;
+}
+.mobile-btn-warning{
+	background: #ebce44;
+	border: 1px solid #d9be40;
+}
+.mobile-btn-danger{
+	background: #f75549;
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0.5,#fc6156),to(#f75549));
+	color: #fff;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+.mobile-btn-default{
+	border: 1px solid #909090;
+	padding: 4px 24px;
+}
+.mobile-btn-block{
+	font-size: 0.3rem;
+	background: #000000;
+	color: #ebce44;
+	display: block;
+	margin:10px auto;
+	width: 80%;
+	padding: 0.1rem 0;
+	border-radius: 8px;
+}
+button{
+	outline: none;
+}
+
+/*微营销软件的底部水印*/
+
+.market-watermark {
+	padding: 20px 0 10px;
+	text-align: center;
+	background: white;
+	position: absolute;
+	width: 100%;
+	bottom: 55px;
+}
+
+.market-watermark a {
+	display: block;
+}
+
+.market-watermark img {
+	width: 140px;
+}
+
+.rotate {
+	-webkit-animation: rotating 1.2s linear infinite;
+	-moz-animation: rotating 1.2s linear infinite;
+	-o-animation: rotating 1.2s linear infinite;
+	animation: rotating 1.2s linear infinite
+}
+
+/*加载*/
+.ld-loading{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	background: rgba(0, 0, 0, 0.66);
+	top: 0;
+	left: 0;
+}
+.ld-loading i{
+	display: inline-block;
+}
+.ld-loading .icon{
+	font-size: 30px;
+}
+.ld-loading>div{
+	text-align: center;
+	margin-top: 300px;
+	color: #fff;
+	font-size: 0.28rem;
+}
+.load-done,
+.load-loading,
+.load-load{
+	display: flex;
+	margin: 0 0  0.2rem;
+	color: green;
+	justify-content: center;
+	font-size: 0.22rem;
+	vertical-align: middle;
+}
+.load-done img,
+.load-loading img,
+.load-load img{
+	width: 0.3rem;
+	height: 0.3rem;
+}
+.load-loading{
+	color: red;
+}
+.load-loading i{
+	display: inline-block;
+}
+.load-load{
+	color: #e2c848;
+}
+@-webkit-keyframes rotating {
+	from {
+		-webkit-transform: rotate(0deg)
+	}
+	to {
+		-webkit-transform: rotate(360deg)
+	}
+}
+
+@keyframes rotating {
+	from {
+		transform: rotate(0deg)
+	}
+	to {
+		transform: rotate(360deg)
+	}
+}
+
+@-moz-keyframes rotating {
+	from {
+		-moz-transform: rotate(0deg)
+	}
+	to {
+		-moz-transform: rotate(360deg)
+	}
+}
+/*tips*/
+.mobile-poptips{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 999;
+}
+.mobile-poptips-cnt {
+	background-color: rgba(0,0,0,.2);
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	max-width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding: 0.08rem 0;
+}
+.mobile-poptips .mobile-poptips-cnt .icon{
+	font-size: 14px;
+}
+.mobile-poptips.mobile-poptips-transition {
+	transition: all 1s ease;
+	height: 40px;
+}
+.mobile-poptips .icon-success,
+.mobile-poptips-success{
+	color: #014201;
+}
+.mobile-poptips .icon-error,
+.mobile-poptips-error{
+	color: red;
+}
+.mobile-poptips .icon-info,
+.mobile-poptips-info{
+	color: #ebce44;
+}
+/*手机模态框*/
+.mobile-modal{
+	position: fixed;
+	top: 0;
+	left: 10%;
+	width: 80%;
+	font-size: 0.14rem;
+	background: #ffffff;
+	z-index: 100;
+	margin-top: 100px;
+	border-radius: 5px;
+}
+.mobile-modal.fade{
+	display: none;
+}
+.mobile-modal.fade.in{
+	display: block;
+}
+.mobile-con{
+	position: relative;
+	padding: 0.4rem 0.4rem 1rem;
+}
+.mobile-modal-body{
+	min-height: 2rem;
+}
+.mobile-modal-footer{
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	border-top: 1px solid #c0c0c0;
+}
+.mobile-modal-footer .btn{
+	background: none;
+	position: relative;
+	display: block;
+	width: 50%;
+	float: left;
+	margin: 0;
+	padding: 0;
+	border-radius: 0;
+	cursor: pointer;
+}
+.mobile-modal-footer .btn a{
+	display: block;
+	text-align: center;
+	color: #000000;
+	height: 0.3rem;
+	padding: 0.2rem 0;
+	background: #00a2d4;
+	border-radius: 0 0 0 4px;
+	color: #ffffff;
+}
+.mobile-modal-footer .btn a.mobile-btn:before{
+	position: absolute;
+	border-right: 1px solid #c0c0c0;
+	content: ' ';
+	height: 100%;
+	right: 0;
+	top: 0;
+}
+.mobile-modal-footer .btn:first-child a{
+	background: #fbfbfb;
+	color: #808080;
+}
+.mobile-modal-footer .btn:last-child a{
+	border-radius: 0 0 4px 0;
+}
+.mobile-modal-footer .btn:last-child a.mobile-btn:before{
+	border-right: none;
+}
+.mobile-backdrop{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.2);
+	z-index: 99;
+}
+.mobile-backdrop.fade{
+	display: none;
+}
+.mobile-backdrop.fade.in{
+	display: block;
+}
+/*input框*/
+.input>input,
+.input>select{
+	width: 100%;
+	display: block;
+	border: 1px solid #c0c0c0;
+	border-radius: 4px;
+	-webkit-appearance: inherit;
+	padding: 0.1rem 8px;
+	font-size: 0.24rem;
+}
+.input>select{
+	padding: 3px 0;
+}
+
+@media screen and (min-width: 320px) {html{font-size:50px;}}
+@media screen and (min-width: 360px) {html{font-size:56.25px;}}
+@media screen and (min-width: 375px) {html{font-size:58.59375px;}}
+@media screen and (min-width: 400px) {html{font-size:62.5px;}}
+@media screen and (min-width: 414px) {html{font-size:64.6875px;}}
+@media screen and (min-width: 440px) {html{font-size:68.75px;}}
+@media screen and (min-width: 480px) {html{font-size:75px;}}
+@media screen and (min-width: 520px) {html{font-size:81.25px;}}
+@media screen and (min-width: 560px) {html{font-size:87.5px;}}
+@media screen and (min-width: 600px) {html{font-size:93.75px;}}
+@media screen and (min-width: 640px) {html{font-size:100px;}}
+@media screen and (min-width: 680px) {html{font-size:106.25px;}}
+@media screen and (min-width: 720px) {html{font-size:112.5px;}}
+@media screen and (min-width: 760px) {html{font-size:118.75px;}}
+@media screen and (min-width: 800px) {html{font-size:125px;}}
+@media screen and (min-width: 960px) {html{font-size:150px;}}
