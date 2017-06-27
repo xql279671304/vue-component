@@ -15,12 +15,12 @@
 					</div>
 					<div class="hour" ref="timePickerHour">
 						<ul>
-							<li v-for="H in hour" :class="{active: curHour==H}">{{H}}</li>
+							<li v-for="H in hour" :key="H" :class="{active: curHour==H}">{{H}}</li>
 						</ul>
 					</div>
 					<div class="min" ref="timePickerMin">
 						<ul>
-							<li v-for="M in 60" :class="{active: curMin==M}">{{M-1<10?'0'+(M-1):(M-1)}}</li>
+							<li v-for="M in 60" :key="M" :class="{active: curMin==M-1}">{{M-1<10?'0'+(M-1):(M-1)}}</li>
 						</ul>
 					</div>
 				</div>
@@ -29,6 +29,8 @@
 	</transition>
 </template>
 <script>
+	import scheme from '../../assets/scheme.js'
+
 	export default{
 		props: {
 			show: Boolean // true显示 false隐藏
@@ -38,7 +40,8 @@
 			curSec: 1,
 			curHour: 1,
 			curMin: 1,
-			chooseTime: null
+			chooseTime: null,
+			hasEvent: false
 		}),
 		watch: {
 			show () {
@@ -46,6 +49,9 @@
 					this.initTime();
 				}
 			}
+		},
+		mounted (){
+
 		},
 		methods: {
 			initTime (){
@@ -66,7 +72,9 @@
 				this.$nextTick(function(){
 					timePickerSec.scrollTop = (this.curSec-1)*30;
 					timePickerHour.scrollTop = (this.curHour-1)*30;
-					timePickerMin.scrollTop = (this.curMin)*30;
+					timePickerMin.scrollTop = this.curMin*30;
+					if(this.hasEvent) return;
+					this.hasEvent = true;
 					this.addEvent(timePickerSec, 'curSec');
 					this.addEvent(timePickerHour, 'curHour');
 					this.addEvent(timePickerMin, 'curMin');
@@ -75,24 +83,25 @@
 			addEvent (obj, name){
 				const self = this;
 				var st = '';
-				obj.addEventListener('scroll', (e)=>{
+				scheme.bindEvent(obj, 'scroll', (e)=>{
 					let target = e.target;
 					let t = target.scrollTop;
 					clearTimeout(st);
 					st = setTimeout(function(){
 						const num = Math.round(t/30);
 						target.scrollTop = num*30;
-						self[name] = num+1;
+						self[name] = name=='curMin'?num:num+1;
 					}, 500);
 					e.stopPropagation();
 				})
+				return true;
 			},
 			sureTime (type){
 				if(type=='cancel'){
 					this.$emit('timePickerData', {type: 'cancel'})
 					return;
 				}
-				let m = (this.curMin-1)<10?'0'+(this.curMin-1):this.curMin-1;
+				let m = (this.curMin-1)<10?'0'+this.curMin:this.curMin;
 				if(this.curSec==2){
 					this.chooseTime = (this.curHour+12)+':'+m;
 				}else{

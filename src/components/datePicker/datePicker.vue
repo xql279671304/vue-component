@@ -10,21 +10,21 @@
 				<div class="date-picker-year" ref="datePickerYear">
 					<p class="top"></p>
 					<ul>
-						<li v-for="Y in rangeYear" :class="{active: activeYear==Y-1}">{{startYear+Y-1}}年</li>
+						<li v-for="Y in rangeYear" :key="Y" :class="{active: activeYear==Y-1}">{{startYear+Y-1}}年</li>
 					</ul>
 					<p></p>
 				</div>
 				<div class="date-picker-month" ref="datePickerMonth">
 					<p class="top"></p>
 					<ul>
-						<li v-for="M in 12" :class="{active: activeMonth==M}">{{M}}月</li>
+						<li v-for="M in 12" :key="M" :class="{active: activeMonth==M}">{{M}}月</li>
 					</ul>
 					<p></p>
 				</div>
 				<div class="date-picker-day" ref="datePickerDay">
 					<p class="top"></p>
 					<ul>
-						<li v-for="D in days" :class="{active: activeDay==D}">{{D}}日</li>
+						<li v-for="D in days" :key="D" :class="{active: activeDay==D}">{{D}}日</li>
 					</ul>
 					<p></p>
 				</div>
@@ -34,6 +34,8 @@
 	</transition>
 </template>
 <script>
+	import scheme from '../../assets/scheme.js'
+
 	export default{
 		props: {
 			datePickerOption: Object,
@@ -52,14 +54,9 @@
 				chooseMonth: '',
 				chooseDay: '',
 				type: '',
-				endYear: ''
+				endYear: '',
+				hasEvent: false
 			}
-		},
-		created (){
-
-		},
-		computed: {
-
 		},
 		watch:{
 			show (){
@@ -99,6 +96,7 @@
 					if(this.chooseDay>0){
 						this.initScrollTop(this.$refs.datePickerDay, this.chooseDay-1);
 					}
+					if(this.hasEvent) return;
 					this.chooseDate();
 				})
 			},
@@ -143,14 +141,14 @@
 				const datePickerYear = this.$refs.datePickerYear;
 				const datePickerMonth = this.$refs.datePickerMonth;
 				const datePickerDay = this.$refs.datePickerDay;
-				this.chooseFn(datePickerYear, 'Year');
-				this.chooseFn(datePickerMonth, 'Month');
-				this.chooseFn(datePickerDay, 'Day');
+				this.addEvent(datePickerYear, 'Year');
+				this.addEvent(datePickerMonth, 'Month');
+				this.addEvent(datePickerDay, 'Day');
 			},
-			chooseFn (obj, type){
+			addEvent (obj, type){
 				var st = '';
 				const oneH = 30;
-				obj.addEventListener('scroll', (e)=>{
+				scheme.bindEvent(obj, 'scroll',(e)=>{
 					clearTimeout(st);
 					st = setTimeout(()=>{
 						const target = e.target;

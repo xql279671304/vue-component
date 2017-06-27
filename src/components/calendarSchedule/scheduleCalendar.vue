@@ -18,7 +18,7 @@
 		</div>
 		<div class="days">
 			<ul>
-				<li v-for="(item, index) in week" :class="{cur: item.cur, active: item.active}" @click="chooseDay(index)">
+				<li v-for="(item, index) in week" :key="index" :class="{cur: item.cur, active: item.active}" @click="chooseDay(index)">
 					<span>{{item.cDay}}</span>
 					<span>{{item.IDayCn}}</span>
 				</li>
@@ -37,10 +37,10 @@
 				</h4>
 				<div class="list">
 					<ul ref="yearList">
-						<li v-for="i in 10" :class="{active: (2016+i)==curYear}">{{2016+i}}年</li>
+						<li v-for="i in 10" :key="i" :class="{active: (2016+i)==curYear}">{{2016+i}}年</li>
 					</ul>
 					<ul ref="monthList">
-						<li v-for="i in 12" :class="{active: i==curMonth}">{{i}}月</li>
+						<li v-for="i in 12" :key="i" :class="{active: i==curMonth}">{{i}}月</li>
 					</ul>
 				</div>
 			</div>
@@ -54,6 +54,7 @@
 	import closeIcon from './wrong.png'
 	import sureIcon from './right.png'
 	import calendar from './calendar'
+	import scheme from '../../assets/scheme.js'
 
 	export default{
 		data: ()=>({
@@ -131,7 +132,7 @@
 			addEvent (obj, name){
 				const self = this;
 				var st = '';
-				obj.addEventListener('scroll', (e)=>{
+				scheme.bindEvent(obj, 'scroll', (e)=>{
 					let target = e.target;
 					let t = target.scrollTop;
 					clearTimeout(st);
@@ -154,7 +155,7 @@
 						one.active = true;
 						this.curDate = one.cYear+'年'+one.cMonth+'月'+one.cDay+'日';
 						this.curLunar = '农历'+one.IMonthCn+one.IDayCn+'（'+one.ncWeek+'）';
-						this.$emit('scheduleDate', {date: one.cYear+' - '+one.cMonth+' - '+one.cDay})
+						this.$emit('scheduleDate', {date: one.cYear+'-'+(one.cMonth<10?'0'+one.cMonth:one.cMonth)+'-'+(one.cDay<10?'0'+one.cDay:one.cDay)})
 					}else{
 						one.active = false;
 					}
@@ -225,7 +226,7 @@
 	}
 	.days ul li{
 		position: relative;
-		padding: 0.06rem  0.16rem 0.1rem;
+		padding: 0.06rem  0.16rem;
 	}
 	.days ul li span{
 		display: block;
@@ -244,13 +245,14 @@
 	}
 	.days ul li.active{
 		background: #34aadc;
-		border-radius: 50%;
 		color: #ffffff;
 	}
-	.days ul li.active span:last-child{
+	.days ul li.active span:last-child,
+	.days ul li.active span:first-child{
 		color: #ffffff;
 	}
-	.days ul li.cur{
+	.days ul li.cur,
+	.days ul li.active{
 		border: 2px solid #34aadc;
 		border-radius: 50%;
 	}
