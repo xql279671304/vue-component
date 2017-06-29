@@ -71,7 +71,8 @@
 			curMonth: null,
 			months:{
 				show: false
-			}
+			},
+			hasEvent:false
 		}),
 		created (){
 			this.init();
@@ -123,7 +124,8 @@
 				this.$nextTick(function(){
 					monthList.scrollTop = (this.curMonth-1)*30;
 					yearList.scrollTop = (this.curYear-2017)*30;
-					var st = null;
+					if(this.hasEvent) return;
+					this.hasEvent = true;
 					this.addEvent(monthList, 'curMonth');
 					this.addEvent(yearList, 'curYear');
 				})
@@ -220,7 +222,7 @@
 	.days ul{
 		display: flex;
 		margin: 0;
-		padding: 0.2rem 0;
+		padding: 0.2rem 0 0;
 		justify-content: space-around;
 		font-size: 0.32rem;
 	}
@@ -231,6 +233,7 @@
 	.days ul li span{
 		display: block;
 		text-align: center;
+		font-size: 0.3rem
 	}
 	.days ul li:last-child span,
 	.days ul li:first-child span{
@@ -241,7 +244,7 @@
 	}
 	.days ul li span:last-child{
 		color: #bcbcbc;
-		font-size: 0.26rem;
+		font-size: 0.22rem;
 	}
 	.days ul li.active{
 		background: #34aadc;
@@ -264,6 +267,7 @@
 		background: #34aadc;
 		border-radius: 50%;
 		left: 45%;
+		bottom: 0.06rem;
 	}
 	.cur-date{
 		background: #ffffff;

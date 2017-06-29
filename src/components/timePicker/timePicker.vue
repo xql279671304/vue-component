@@ -101,7 +101,7 @@
 					this.$emit('timePickerData', {type: 'cancel'})
 					return;
 				}
-				let m = (this.curMin-1)<10?'0'+this.curMin:this.curMin;
+				let m = this.curMin<10?'0'+this.curMin:this.curMin;
 				if(this.curSec==2){
 					this.chooseTime = (this.curHour+12)+':'+m;
 				}else{
@@ -155,7 +155,6 @@
 		overflow: hidden;
 	}
 	.time .sec{
-		padding-right: 0.2rem;
 		height: 100%;
 		overflow-y: auto;
 	}
@@ -202,6 +201,7 @@
 	.time .hour ul,
 	.time .min ul{
 		padding: 90px 0;
+		width: 0.6rem;
 	}
 	.time .sec ul li{
 		width:100%;
