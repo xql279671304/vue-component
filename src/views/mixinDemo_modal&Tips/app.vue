@@ -1,5 +1,6 @@
 <template lang="html">
     <div>
+        <h1>vue mixins混合用法</h1>
         <modal></modal>
     </div>
 </template>
