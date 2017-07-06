@@ -3,7 +3,7 @@ var document = window.document,
     transform3d: ('WebKitCSSMatrix' in window),
     touch: ('ontouchstart' in window)
   },
-  ImagesZoom = function () {}
+  ImagesCrop = function () { }
 
 function getTranslate (x, y) {
   var distX = x,
@@ -15,8 +15,8 @@ function getPage (event, page) {
   return support.touch ? event.changedTouches[0][page] : event[page]
 }
 
-ImagesZoom.prototype = {
-    // 给初始化数据
+ImagesCrop.prototype = {
+  // 给初始化数据
   init: function (param) {
     var self = this,
       params = param || {},
@@ -41,16 +41,16 @@ ImagesZoom.prototype = {
     })
 
     zoomImg.onload = function () {
-            // 压缩图片
+      // 压缩图片
       self.compress()
-            // 裁剪尺寸
+      // 裁剪尺寸
       self.cropSize({
         ratio: params.ratio
       })
     }
   },
   initEvent: function () {
-        // 添加监听事件
+    // 添加监听事件
     let zoomImg = this.element,
       self = this
     zoomImg.onload = function () {
@@ -72,7 +72,7 @@ ImagesZoom.prototype = {
     var self = this,
       params = param || {}
 
-        // config set
+    // config set
     self.wrapX = params.wrapX || 0 // 可视区域宽度
     self.wrapY = params.wrapY || 0 // 可视区域高度
     self.mapX = params.mapX || 0 // 地图宽度
@@ -93,18 +93,18 @@ ImagesZoom.prototype = {
       self._touchend(e)
     }, false)
   },
-    // 重置坐标数据
+  // 重置坐标数据
   _destroy: function () {
     this.distX = 0
     this.distY = 0
     this.newX = 0
     this.newY = 0
   },
-    // 更新地图信息
+  // 更新地图信息
   _changeData: function () {
     this.mapX = this.element.offsetWidth // 地图宽度
     this.mapY = this.element.offsetHeight // 地图高度
-        // this.outDistY = (this.mapY - this.wrapY)/2; //当图片高度超过屏幕的高度时候。图片是垂直居中的，这时移动有个高度做为缓冲带
+    // this.outDistY = (this.mapY - this.wrapY)/2; //当图片高度超过屏幕的高度时候。图片是垂直居中的，这时移动有个高度做为缓冲带
     this.width = this.mapX - this.wrapX // 地图的宽度减去可视区域的宽度
     this.height = this.mapY - this.wrapY // 地图的高度减去可视区域的高度
   },
@@ -115,7 +115,7 @@ ImagesZoom.prototype = {
     self._changeData() // 重新初始化图片、可视区域数据，由于放大会产生新的计算
 
     if (touchTarget === 1) {
-            // 获取开始坐标
+      // 获取开始坐标
       self.basePageX = getPage(e, 'pageX')
       self.basePageY = getPage(e, 'pageY')
 
@@ -162,7 +162,7 @@ ImagesZoom.prototype = {
     } else if (self.distX < -self.width + this.crop.l) {
       self.newX = -self.width + this.crop.l
     }
-    this.addNode('newX:' + self.newX + '；newY' + self.newY)
+    this._addNode('newX:' + self.newX + '；newY' + self.newY)
     self.reset()
   },
   _move: function (e) {
@@ -170,11 +170,7 @@ ImagesZoom.prototype = {
       pageX = getPage(e, 'pageX'), // 获取移动坐标
       pageY = getPage(e, 'pageY')
 
-        // 禁止默认事件
-        // e.preventDefault();
-        // e.stopPropagation();
-
-        // 获得移动距离
+    // 获得移动距离
     self.distX = (pageX - self.basePageX) + self.newX
     self.distY = (pageY - self.basePageY) + self.newY
 
@@ -188,7 +184,7 @@ ImagesZoom.prototype = {
     self.movePos()
     self.finger = false
   },
-    // 图片缩放
+  // 图片缩放
   _zoom: function (e) {
     var self = this,
       nowFingerDist = self.getTouchDist(e).dist, // 获得当前长度
@@ -209,13 +205,13 @@ ImagesZoom.prototype = {
     }
     self.finger = true
   },
-    // 移动坐标
+  // 移动坐标
   movePos: function () {
     var self = this
     self.moveY = self.distY
     self.refresh(self.moveX, self.moveY, '0s', 'ease')
   },
-    // 重置数据
+  // 重置数据
   reset: function () {
     const self = this
     let hideTime = '.2s',
@@ -231,16 +227,16 @@ ImagesZoom.prototype = {
     }
     self.refresh(self.newX, self.newY, hideTime, 'ease-in-out')
   },
-    // 执行图片移动
+  // 执行图片移动
   refresh: function (x, y, timer, type) {
     this.element.style.webkitTransitionProperty = '-webkit-transform'
     this.element.style.webkitTransitionDuration = timer
     this.element.style.webkitTransitionTimingFunction = type
     this.element.style.webkitTransform = getTranslate(x, y)
   },
-    // 获取多点触控
-    /* eslint one-var: ["error", "always"] */
-/* eslint-env es6 */
+  // 获取多点触控
+  /* eslint one-var: ["error", "always"] */
+  /* eslint-env es6 */
   getTouchDist: function (e) {
     let x1 = 0,
       y1 = 0,
@@ -311,7 +307,7 @@ ImagesZoom.prototype = {
     }
     self.drawCover()
   },
-    // 计算出剪大小
+  // 计算出剪大小
   drawCover: function () {
     const crop = this.crop
     var topElem = document.querySelector('.crop-cover.top'),
@@ -324,7 +320,7 @@ ImagesZoom.prototype = {
     leftElem.style.cssText = 'width: ' + crop.l + 'px;height:' + crop.h + 'px;top:' + crop.t + 'px'
     rightElem.style.cssText = 'width: ' + crop.l + 'px;height:' + crop.h + 'px;top:' + crop.t + 'px'
   },
-    // 画图
+  // 画图
   drawCanvas: function () {
     let elemCanvas = this.elemCanvas
     elemCanvas.style.cssText = 'width:' + this.crop.w + 'px;height:' + this.crop.h + 'px;top:' + this.crop.t + 'px;left:' + this.crop.l + 'px'
@@ -333,34 +329,34 @@ ImagesZoom.prototype = {
     this.scaleFn()
     this.drawImageFn()
   },
-    // high DPI scale
-  scaleFn (type) {
+  // high DPI scale
+  scaleFn: function (type) {
     const self = this,
       crop = type ? self[type] : self.crop,
       cropCanvas = crop.elem
     let ctx = crop.ctx,
       devicePixelRatio = window.devicePixelRatio || 1,
       backingStoreRatio = ctx.backingStorePixelRatio ||
-            ctx.webkitBackingStorePixelRatio ||
-            ctx.mozBackingStorePixelRatio ||
-            ctx.msBackingStorePixelRatio ||
-            ctx.oBackingStorePixelRatio ||
-            ctx.backingStorePixelRatio || 1,
+        ctx.webkitBackingStorePixelRatio ||
+        ctx.mozBackingStorePixelRatio ||
+        ctx.msBackingStorePixelRatio ||
+        ctx.oBackingStorePixelRatio ||
+        ctx.backingStorePixelRatio || 1,
       ratio = devicePixelRatio / backingStoreRatio
     cropCanvas.width = crop.w * ratio
     cropCanvas.height = crop.h * ratio
 
     cropCanvas.style.width = crop.w + 'px'
     cropCanvas.style.height = crop.h + 'px'
-        // upscale the canvas if the two ratios don't match
+    // upscale the canvas if the two ratios don't match
     if (devicePixelRatio !== backingStoreRatio) {
-            // now scale the context to counter
-            // the fact that we've manually scaled
-            // our canvas element
+      // now scale the context to counter
+      // the fact that we've manually scaled
+      // our canvas element
       ctx.scale(ratio, ratio)
     }
   },
-    // 将图片绘制到canvas上
+  // 将图片绘制到canvas上
   drawImageFn: function () {
     const self = this,
       elem = self.element,
@@ -373,7 +369,7 @@ ImagesZoom.prototype = {
     crop.ctx.clearRect(0, 0, crop.w, crop.h)
     crop.ctx.drawImage(elem, Math.round(imgL * radio[0]), Math.round(imgT * radio[1]), Math.round(crop.w * radio[0]), Math.round(crop.h * radio[1]), 0, 0, crop.w, crop.h)
   },
-    // 获取比例
+  // 获取比例
   getRadio: function () {
     const self = this,
       elem = self.element,
@@ -383,13 +379,13 @@ ImagesZoom.prototype = {
       h = elem.height
     return [naturalWidth / w, naturalHeight / h]
   },
-    // 对图片进行旋转，压缩的方法，最终返回base64  渲染给img标签的src
-  compress () {
+  // 对图片进行旋转，压缩的方法，最终返回base64  渲染给img标签的src
+  compress: function () {
     var img = this.element
     let drawWidth, drawHeight, maxSide, minSide, canvas, context, base64data, nodeImg
     drawWidth = img.naturalWidth
     drawHeight = img.naturalHeight
-        // 以下改变一下图片大小
+    // 以下改变一下图片大小
     maxSide = Math.max(drawWidth, drawHeight)
     minSide = Math.min(drawWidth, drawHeight)
     if (maxSide > 1024) {
@@ -419,20 +415,20 @@ ImagesZoom.prototype = {
     base64data = canvas.toDataURL(this.imgType)
     nodeImg = document.createElement('img')
     canvas = context = null
-        // 创建canvas 对象
+    // 创建canvas 对象
 
     nodeImg.src = base64data
     document.querySelector('.crop-con').appendChild(nodeImg)
     this.element = nodeImg
     this.initEvent()
   },
-    // 将节点添加到 sole-style
-  addNode: function (text) {
+  // 将节点添加到操作日志
+  _addNode: function (text) {
     let node = document.createElement('p'),
       nodeText = document.createTextNode(text)
     node.appendChild(nodeText)
-    document.querySelector('.sole-style').appendChild(node)
+    document.querySelector('.log-lists').appendChild(node)
   }
 }
 
-export default new ImagesZoom()
+export default new ImagesCrop()

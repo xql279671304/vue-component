@@ -17,9 +17,9 @@
 				<span class="sure-crop">完成</span>
 			</div>
 		</div>
-		<div class="print">
-			<span @click="print=!print">print</span>
-			<div v-show="print" class="sole-style"></div>
+		<div class="log">
+			<span @click="print=!print">操作日志</span>
+			<div v-show="print" class="log-lists"></div>
 		</div>
 		<span @click="showCropImg" style="position: absolute;width:50px;height:20px;text-align: center;top:10px;right: 10px;color: red;z-index: 99999;">关闭</span>
 	</div>
@@ -54,10 +54,10 @@ export default {
 		}
 	},
 	methods: {
-		showCropImg (){
-			if(this.$refs.cropCon.style.display=='none'){
+		showCropImg() {
+			if (this.$refs.cropCon.style.display == 'none') {
 				this.$refs.cropCon.style.display = 'block';
-			}else{
+			} else {
 				this.$refs.cropCon.style.display = 'none';
 			}
 		}
@@ -112,32 +112,23 @@ export default {
 
 .crop-cover.top {
 	top: 0;
-	/*background: url("./crop_bg_01.png") no-repeat;
-		background-size: 100%;*/
 }
 
 .crop-cover.bottom {
 	bottom: 0;
-	/*background: url("./crop_bg_03.png") no-repeat;
-		background-size: 100%;*/
 }
 
 .crop-cover.right {
 	right: 0;
-	/*background: url("./crop_bg_04.png") no-repeat;
-		background-size: 100% 100%;*/
 }
 
 .crop-cover.left {
 	left: 0;
-	/*background: url("./crop_bg_02.png") no-repeat;
-		background-size: 100% 100%;*/
 }
 
 .crop-canvas {
 	position: absolute;
 	z-index: -1;
-	/*background: red;*/
 }
 
 .crop-btn {
@@ -163,18 +154,18 @@ export default {
 }
 
 /*裁剪的图片*/
-.crop-img{
+
+.crop-img {
 	position: absolute;
 	top: 20px;
 	left: 20px;
 	width: 80%;
 	z-index: 999;
 }
-/**
-	打印的样式
-	 */
 
-.print {
+/**打印的样式*/
+
+.log {
 	position: fixed;
 	right: 0;
 	bottom: 36px;
@@ -184,16 +175,17 @@ export default {
 	font-size: 12px;
 }
 
-.print>span {
-	width: 30px;
+.log>span {
+	width: 60px;
 	display: inline-block;
 	height: 20px;
 	background: #fff;
 	color: #000;
 	text-align: center;
+	border: 1px solid #000;
 }
 
-.sole-style {
+.log-lists {
 	position: relative;
 	width: 200px;
 	height: 200px;
